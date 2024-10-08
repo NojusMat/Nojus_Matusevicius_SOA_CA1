@@ -6,7 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddScoped(sp =>
+{
+    var client = new HttpClient { BaseAddress = new Uri("https://api.balldontlie.io/v1/") };
+    client.DefaultRequestHeaders.Add("Authorization", "cbc67172-1d75-48a9-8780-a47762cd8e76");
+    return client;
+});
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

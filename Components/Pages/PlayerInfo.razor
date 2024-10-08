@@ -1,0 +1,39 @@
+﻿@page "/player_info"
+@inject HttpClient Http
+<h3>PlayerInfo</h3>
+
+<PageTitle>Nba Players</PageTitle>
+
+@if (players == null)
+{
+        <p><em>Loading...</em></p>
+}
+else
+{
+        <ul>
+        @foreach (var player in players)
+        {
+                    <li>@player.first_name @player.last_name - Position @player.position <br/>
+                    Team: @player.team.full_name (@player.team.abbreviation), @player.team.city    
+                    </li>
+        }
+        </ul>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+
+            var response = await Http.GetFromJsonAsync<PlayerResponse>("players");
+            players = response?.data;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error Message");
+        }
+    }
+
+    private List<Player> players;
+}
