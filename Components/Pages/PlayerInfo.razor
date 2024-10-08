@@ -13,14 +13,20 @@ else
         <ul>
         @foreach (var player in players)
         {
-                    <li>@player.first_name @player.last_name - Position @player.position <br/>
-                    Team: @player.team.full_name (@player.team.abbreviation), @player.team.city    
-                    </li>
+                    <li>@player.first_name @player.last_name - Position @player.PlayerPosition <br/>
+                    Team: @player.team.full_name (@player.team.abbreviation), @player.team.city <br/>
+                   Height: @player.height ,<br/>
+                   Draft Year: @player.draft_year <br/>
+                Top 10 in Draft: @(player.wasATop10Draft() ? "yes" : "no")
+            </li>
+            <br/>
         }
         </ul>
 }
 
 @code {
+    private List<Player> players;
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -28,12 +34,11 @@ else
 
             var response = await Http.GetFromJsonAsync<PlayerResponse>("players");
             players = response?.data;
+
         }
         catch (Exception e)
         {
             Console.WriteLine("Error Message");
         }
     }
-
-    private List<Player> players;
 }

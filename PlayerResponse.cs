@@ -5,6 +5,3 @@
         public List<Player> data { get; set; }
     }
 }
-
-
-
