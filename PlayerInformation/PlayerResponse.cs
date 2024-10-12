@@ -1,4 +1,4 @@
-﻿namespace Nojus_Matusevicius_SOA_CA1
+﻿namespace Nojus_Matusevicius_SOA_CA1.PlayerInformation
 {
     public class PlayerResponse
     {

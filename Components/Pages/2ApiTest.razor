@@ -1,0 +1,27 @@
+﻿@page "/test"
+@inject HttpClient Http
+
+<h3>Testing two apis</h3>
+
+@if (test != null)
+{
+    <p><strong>Title:</strong> @test.Title</p>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private Test? test;
+
+    protected override async Task OnInitializedAsync()
+    {
+        test = await Http.GetFromJsonAsync<Test>("https://jsonplaceholder.typicode.com/todos/1");
+    }
+
+    public class Test
+    {
+        public string Title { get; set; }
+    }
+}

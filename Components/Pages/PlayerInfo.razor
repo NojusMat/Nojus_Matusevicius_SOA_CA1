@@ -25,14 +25,14 @@ else
 }
 
 @code {
-    private List<Player> players;
+    private List<PlayerInformation.Player> players;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
 
-            var response = await Http.GetFromJsonAsync<PlayerResponse>("players");
+            var response = await Http.GetFromJsonAsync<PlayerInformation.PlayerResponse>("players");
             players = response?.data;
 
         }

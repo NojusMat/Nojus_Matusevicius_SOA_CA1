@@ -1,0 +1,26 @@
+﻿@page "/fileUpload"
+@inject HttpClient Http
+
+<h3>Read File</h3>
+<button @onclick="ReadStaticFile">Load File</button>
+
+@if (!string.IsNullOrEmpty(fileContent))
+{
+    <div>@fileContent</div>
+}
+
+@code {
+    private string? fileContent;
+
+    private async Task ReadStaticFile()
+    {
+        try
+        {
+            var requestUri = "sample.txt";
+            fileContent = await Http.GetStringAsync(requestUri);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}
