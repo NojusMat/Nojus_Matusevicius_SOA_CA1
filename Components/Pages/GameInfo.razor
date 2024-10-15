@@ -1,0 +1,57 @@
+﻿@page "/gameinfo"
+@inject IHttpClientFactory ClientFactory
+
+<h3>NBA Scores</h3>
+
+@if (nbaGames == null)
+{
+    <p>Loading...</p>
+     
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commence Time</th>
+                <th>Completed</th>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Scores</th>
+                <th>last update</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var game in nbaGames)
+            {
+                <tr>
+                    <td>@game.commence_time</td>
+                    <td>@game.completed</td>
+                    <td>@game.home_team</td>
+                    <td>@game.convertScore()</td>
+                    <td>@game.away_team</td>
+                    <td>@game.convertLastUpdate()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+       
+}
+
+@code {
+    private List<GameInformation.NbaGame> nbaGames;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var client = ClientFactory.CreateClient("OddsApiClient");
+            nbaGames = await client.GetFromJsonAsync<List<GameInformation.NbaGame>>("sports/basketball_nba/scores/?daysFrom=1&apiKey=990cde0352439446105fdb349bb3e5b0");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error Message");
+        }
+    }
+}

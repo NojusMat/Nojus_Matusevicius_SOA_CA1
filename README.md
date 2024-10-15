@@ -9,3 +9,9 @@ https://webscraping.ai/faq/httpclient-c/how-can-i-set-request-headers-for-an-htt
 
 ### String to Enum parser
 https://code-maze.com/csharp-convert-string-and-int-to-enum/
+
+### Odds api
+https://the-odds-api.com/
+
+### Ball dont lie api 
+https://app.balldontlie.io/
