@@ -1,8 +1,6 @@
 using Nojus_Matusevicius_SOA_CA1.Components;
-using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

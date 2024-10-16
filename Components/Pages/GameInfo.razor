@@ -46,8 +46,8 @@ else
     {
         try
         {
-         var client = ClientFactory.CreateClient("OddsApiClient");
-         nbaGames = await client.GetFromJsonAsync<List<GameInformation.NbaGame>>("sports/basketball_nba/scores/?daysFrom=1&apiKey=990cde0352439446105fdb349bb3e5b0");
+         // var client = ClientFactory.CreateClient("OddsApiClient");
+         // nbaGames = await client.GetFromJsonAsync<List<GameInformation.NbaGame>>("sports/basketball_nba/scores/?daysFrom=1&apiKey=990cde0352439446105fdb349bb3e5b0");
         }
         catch (Exception e)
         {

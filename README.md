@@ -18,3 +18,12 @@ https://the-odds-api.com/
 
 ### Ball dont lie api 
 https://app.balldontlie.io/
+
+### Icons
+https://icons.getbootstrap.com/
+
+### Header
+https://getbootstrap.com/docs/5.3/examples/headers/
+
+### Footer
+https://getbootstrap.com/docs/5.3/examples/footers/
