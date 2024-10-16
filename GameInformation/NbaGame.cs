@@ -1,6 +1,6 @@
 ﻿namespace Nojus_Matusevicius_SOA_CA1.GameInformation
 {
-    public class NbaGame
+    public class NbaGame : INbaGame
     {
         public string id { get; set; }
         public string sport_key { get; set; }

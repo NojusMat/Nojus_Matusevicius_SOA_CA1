@@ -1,5 +1,6 @@
 ﻿@page "/player_info"
 @inject IHttpClientFactory ClientFactory
+
 <h3>PlayerInfo</h3>
 
 <PageTitle>Nba Players</PageTitle>
@@ -33,7 +34,7 @@ else
         {
 
             var client = ClientFactory.CreateClient("BallDontLieClient");
-            var response = await client.GetFromJsonAsync<PlayerInformation.PlayerResponse>("players");
+            var response = await client.GetFromJsonAsync<PlayerInformation.PlayerObject>("players");
             players = response?.data;
 
         }

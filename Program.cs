@@ -3,8 +3,10 @@ using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -21,7 +23,6 @@ builder.Services.AddHttpClient("BallDontLieClient",client =>
 builder.Services.AddHttpClient("OddsApiClient", client =>
 {
 client.BaseAddress = new Uri("https://api.the-odds-api.com/v4/");
-    client.DefaultRequestHeaders.Add("Authorization", "990cde0352439446105fdb349bb3e5b0");
 });
 
 var app = builder.Build();

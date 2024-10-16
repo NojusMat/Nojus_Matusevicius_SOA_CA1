@@ -1,10 +1,14 @@
 ﻿@page "/fileUpload"
 @inject HttpClient Http
 
-<h3>Read File</h3>
-<button @onclick="ReadStaticFile">Load File</button>
+<h3>File Content</h3>
 
-@if (!string.IsNullOrEmpty(fileContent))
+@if (string.IsNullOrEmpty(fileContent))
+{
+    <div>Loading...</div>
+}
+
+else
 {
     <div>@fileContent</div>
 }
@@ -12,15 +16,17 @@
 @code {
     private string? fileContent;
 
-    private async Task ReadStaticFile()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            var requestUri = "sample.txt";
-            fileContent = await Http.GetStringAsync(requestUri);
+            var absoluteUrl = "https://localhost:7168/sample.txt";
+            fileContent = await Http.GetStringAsync(absoluteUrl);
+
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
+            Console.WriteLine("Error reading from the file");
         }
     }
 }
