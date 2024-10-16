@@ -1,9 +1,12 @@
 ﻿@page "/player_info"
 @inject IHttpClientFactory ClientFactory
 
-<h3>PlayerInfo</h3>
+<h2 style="text-align: center;font-family:Impact;">Information about all the current NBA players</h2>
+    <br>
 
 <PageTitle>Nba Players</PageTitle>
+<img src="images/tatum.jpg" alt="player" style="max-width: 100%; height:70%;">
+    <br>
 
 @if (players == null)
 {
