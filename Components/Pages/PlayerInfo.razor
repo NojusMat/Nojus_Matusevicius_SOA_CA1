@@ -19,6 +19,7 @@
 }
 else
 {
+    // filter players based on search
     var filteredPlayers = SearchService.SearchPlayers(players, searchTerm);
 
     if (filteredPlayers.Count == 0)
@@ -52,7 +53,9 @@ else
 }
 
 @code {
+    // list of player information
     private List<PlayerInformation.Player> players;
+    // search from user
     private string searchTerm = string.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -77,8 +80,11 @@ else
                 team = team1
             };
 
+        // convers my players position
         player1.ConvertPosition();
         playerArrayList.Add(player1);
+
+        // Arraylist to list
         players = playerArrayList.Cast<PlayerInformation.Player>().ToList();
 
         try
