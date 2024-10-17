@@ -6,6 +6,7 @@
     <br>
 
 
+<!--Checking if the file is empty or not-->
 @if (string.IsNullOrEmpty(fileContent))
 {
     <div>Loading...</div>
@@ -17,6 +18,7 @@ else
 }
 
 @code {
+    // store the content of the file
     private string? fileContent;
 
     protected override async Task OnInitializedAsync()

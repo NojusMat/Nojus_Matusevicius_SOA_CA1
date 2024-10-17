@@ -13,7 +13,11 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Commence Time</th>
+                <th>Commence Time
+                     
+                    <button @onclick="ToggleSortOrder" style="padding: 5px 10px; background-color: orangered; color: white; border: none; border-radius: 5px; cursor: pointer;">(@(sortAscending ? " Earliest " : " Latest "))</button>
+
+                </th>
                 <th>Completed</th>
                 <th>Home Team</th>
                 <th>Scores</th>
@@ -40,18 +44,46 @@ else
 }
 
 @code {
+    // list of nba games
     private List<GameInformation.NbaGame> nbaGames;
 
+    // tracking if order is ascending or descending
+    private bool sortAscending = true;
     protected override async Task OnInitializedAsync()
     {
         try
         {
-          // var client = ClientFactory.CreateClient("OddsApiClient");
-          // nbaGames = await client.GetFromJsonAsync<List<GameInformation.NbaGame>>("sports/basketball_nba/scores/?daysFrom=1&apiKey=990cde0352439446105fdb349bb3e5b0");
+            // Fetching data from the API
+             var client = ClientFactory.CreateClient("OddsApiClient");
+             nbaGames = await client.GetFromJsonAsync<List<GameInformation.NbaGame>>("sports/basketball_nba/scores/?daysFrom=1&apiKey=990cde0352439446105fdb349bb3e5b0");
+
+            SortGames();
+
         }
         catch (Exception e)
         {
             Console.WriteLine("Error Message");
+        }
+    }
+
+    // toggle sorting order
+    private void ToggleSortOrder()
+    {
+        sortAscending = !sortAscending;
+        SortGames();
+    }
+
+    private void SortGames()
+    {
+        if(sortAscending)
+        {
+            // sort in ascending order
+            nbaGames = nbaGames.OrderBy(game => game.commence_time).ToList();
+        }
+        else
+        {
+            // sort in descending order
+            nbaGames = nbaGames.OrderByDescending(game => game.commence_time).ToList();
         }
     }
 }
