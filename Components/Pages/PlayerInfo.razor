@@ -1,8 +1,14 @@
 ﻿@page "/player_info"
+@using System.Collections
 @inject IHttpClientFactory ClientFactory
-<h3>PlayerInfo</h3>
+
+<h2 style="text-align: center;font-family:Impact;">Information about all the current NBA players</h2>
+    <br>
 
 <PageTitle>Nba Players</PageTitle>
+<img src="images/tatum.jpg" alt="player" style="max-width: 100%; height:70%;">
+<br>
+<br>
 
 @if (players == null)
 {
@@ -13,11 +19,22 @@ else
         <ul>
         @foreach (var player in players)
         {
-                    <li>@player.first_name @player.last_name - Position @player.PlayerPosition <br/>
-                    Team: @player.team.full_name (@player.team.abbreviation), @player.team.city <br/>
-                   Height: @player.height ,<br/>
-                   Draft Year: @player.draft_year <br/>
+            
+            <li class="list-group-item" style=" color: black; background-color:orangered; font-family:impact"> Player Information
+                <button>View Next Match</button>
+            </li>
+            <li class="list-group-item"> Name:@player.first_name @player.last_name</li>
+            <li class="list-group-item">Position: @player.PlayerPosition  Height: @player.height</li>
+
+            <li class="list-group-item">
+                Draft Year: @player.draft_year
+                Draft Number: @player.draft_number
                 Top 10 in Draft: @(player.wasATop10Draft() ? "yes" : "no")
+            </li>
+
+            <li class="list-group-item">Team: @player.team.full_name
+                (@player.team.abbreviation),
+                City: @player.team.city
             </li>
             <br/>
         }
@@ -29,12 +46,40 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        ArrayList playerArrayList = new ArrayList();
+        var team1 = new PlayerInformation.Team
+        {
+            full_name = "Los Angeles Lakers",
+            city = "Los Angeles",
+            abbreviation  = "LAL"  
+        };
+
+        var player1 = new PlayerInformation.Player
+            {
+                first_name = "Nojus",
+                last_name = "Matusevicius",
+                height = "5'9",
+                draft_year = 2024,
+                draft_number = 1,
+                draft_round = 1,
+                position = "PowerForward",
+                team = team1
+            };
+        player1.ConvertPosition();
+        playerArrayList.Add(player1);
+        players = playerArrayList.Cast<PlayerInformation.Player>().ToList();
+
         try
         {
 
             var client = ClientFactory.CreateClient("BallDontLieClient");
-            var response = await client.GetFromJsonAsync<PlayerInformation.PlayerResponse>("players");
-            players = response?.data;
+            var response = await client.GetFromJsonAsync<PlayerInformation.PlayerObject>("players");
+
+            if(response?.data != null)
+            {
+                players.AddRange(response.data);
+
+            }
 
         }
         catch (Exception e)
