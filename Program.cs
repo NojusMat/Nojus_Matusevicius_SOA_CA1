@@ -10,18 +10,18 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Test API
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://jsonplaceholder.typicode.com/") });
-
-
 // Ball dont lie api.
-builder.Services.AddScoped(sp =>
+builder.Services.AddHttpClient("BallDontLieClient",client =>
 {
-    var client = new HttpClient
-    { BaseAddress = new Uri("https://api.balldontlie.io/v1/") 
-    };
+    client.BaseAddress = new Uri("https://api.balldontlie.io/v1/");
     client.DefaultRequestHeaders.Add("Authorization", "cbc67172-1d75-48a9-8780-a47762cd8e76");
-    return client;
+});
+
+// Odds API
+builder.Services.AddHttpClient("OddsApiClient", client =>
+{
+client.BaseAddress = new Uri("https://api.the-odds-api.com/v4/");
+    client.DefaultRequestHeaders.Add("Authorization", "990cde0352439446105fdb349bb3e5b0");
 });
 
 var app = builder.Build();

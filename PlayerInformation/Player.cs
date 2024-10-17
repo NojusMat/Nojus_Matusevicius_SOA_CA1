@@ -1,12 +1,5 @@
 ﻿namespace Nojus_Matusevicius_SOA_CA1.PlayerInformation
 {
-    public abstract class Athelete
-    {
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-
-    }
-
     public enum Position
     {
         PointGuard,
@@ -17,7 +10,7 @@
 
     }
 
-    public class Player : Athelete
+    public class Player : Athelete , IAthlete
     {
         public string position { get; set; }
         public string height { get; set; }
@@ -41,6 +34,16 @@
             {
                 PlayerPosition = enumPosition;
             }
+        }
+
+        public string GetFullName()
+        {
+            return $"{first_name} {last_name}";
+        }
+
+        public Position GetPosition()
+        {
+            return PlayerPosition;
         }
     }
 }
