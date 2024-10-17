@@ -27,3 +27,6 @@ https://getbootstrap.com/docs/5.3/examples/headers/
 
 ### Footer
 https://getbootstrap.com/docs/5.3/examples/footers/
+
+### Adding elements to arraylist
+https://www.tutorialsteacher.com/csharp/csharp-arraylist
