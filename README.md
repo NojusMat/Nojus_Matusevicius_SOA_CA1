@@ -30,3 +30,6 @@ https://getbootstrap.com/docs/5.3/examples/footers/
 
 ### Adding elements to arraylist
 https://www.tutorialsteacher.com/csharp/csharp-arraylist
+
+### LINQ sorting 
+https://www.simplilearn.com/tutorials/c-sharp-tutorial/sorting-algorithms-in-c-sharp

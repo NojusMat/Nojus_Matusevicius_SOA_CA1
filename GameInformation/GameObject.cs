@@ -2,6 +2,8 @@
 {
     public class GameObject
     {
+
+        // Array of NbaGame objects
         public NbaGame[] gamedata { get; set; }
     }
 }

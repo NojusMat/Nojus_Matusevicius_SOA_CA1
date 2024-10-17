@@ -1,58 +1,69 @@
 ﻿@page "/player_info"
 @using System.Collections
 @inject IHttpClientFactory ClientFactory
+@inject Nojus_Matusevicius_SOA_CA1.Service.SearchService SearchService
 
-<h2 style="text-align: center;font-family:Impact;">Information about all the current NBA players</h2>
-    <br>
+<h1 style="text-align: center;font-family:Impact;">Information about all the current NBA players</h1>
 
 <PageTitle>Nba Players</PageTitle>
-<img src="images/tatum.jpg" alt="player" style="max-width: 100%; height:70%;">
+<img src="images/tatum.jpg" alt="player" style="max-width: 100%; height:80%;">
 <br>
 <br>
+
+<input type="text" @bind="searchTerm" placeholder="Search for a player by name..."
+       style="border: 2px solid orangered; border-radius: 25px; padding: 10px; width: 100%; margin-bottom:20px" />
 
 @if (players == null)
 {
-        <p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
-        <ul>
-        @foreach (var player in players)
-        {
-            
-            <li class="list-group-item" style=" color: black; background-color:orangered; font-family:impact"> Player Information
-                <button>View Next Match</button>
-            </li>
-            <li class="list-group-item"> Name:@player.first_name @player.last_name</li>
-            <li class="list-group-item">Position: @player.PlayerPosition  Height: @player.height</li>
+    var filteredPlayers = SearchService.SearchPlayers(players, searchTerm);
 
-            <li class="list-group-item">
-                Draft Year: @player.draft_year
-                Draft Number: @player.draft_number
-                Top 10 in Draft: @(player.wasATop10Draft() ? "yes" : "no")
-            </li>
-
-            <li class="list-group-item">Team: @player.team.full_name
-                (@player.team.abbreviation),
-                City: @player.team.city
-            </li>
-            <br/>
-        }
-        </ul>
+    if (filteredPlayers.Count == 0)
+    {
+        <p>No players found.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var player in filteredPlayers)
+            {
+                <div class="col-md-6">
+                    <div class="card mb-4" style="background-color: white; color: black; border: 2px solid grey; border-radius: 15px;">
+                        <div class="card_header text-center" style="font-size: 1.5rem; font-weight: bold; background-color: orangered; color: white;border-top-left-radius:15px; border-top-right-radius:15px">
+                            @player.first_name @player.last_name
+                        </div>
+                        <div class="card_body text-center" style="background-color:rgb(220,220,220);border-bottom-left-radius:15px; border-bottom-right-radius:15px">
+                            <p style="font-size: 1rem;">Position: <strong>@player.PlayerPosition</strong></p>
+                            <p style="font-size: 1rem;">Height: <strong>@player.height</strong></p>
+                            <p style="font-size: 1rem;">Draft Year: <strong>@player.draft_year</strong></p>
+                            <p style="font-size: 1rem;">Draft Number: <strong>@player.draft_number</strong></p>
+                            <p style="font-size: 1rem;">Top 10 in Draft: <strong>@(player.wasATop10Draft() ? "yes" : "no")</strong></p>
+                            <p style="font-size: 1rem;">Team: <strong>@player.team.full_name (@player.team.abbreviation)</strong></p>
+                            <p style="font-size: 1rem;">City: <strong>@player.team.city</strong></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 }
 
 @code {
     private List<PlayerInformation.Player> players;
+    private string searchTerm = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         ArrayList playerArrayList = new ArrayList();
         var team1 = new PlayerInformation.Team
-        {
-            full_name = "Los Angeles Lakers",
-            city = "Los Angeles",
-            abbreviation  = "LAL"  
-        };
+            {
+                full_name = "Los Angeles Lakers",
+                city = "Los Angeles",
+                abbreviation = "LAL"
+            };
 
         var player1 = new PlayerInformation.Player
             {
@@ -65,22 +76,20 @@ else
                 position = "PowerForward",
                 team = team1
             };
+
         player1.ConvertPosition();
         playerArrayList.Add(player1);
         players = playerArrayList.Cast<PlayerInformation.Player>().ToList();
 
         try
         {
-
             var client = ClientFactory.CreateClient("BallDontLieClient");
             var response = await client.GetFromJsonAsync<PlayerInformation.PlayerObject>("players");
 
-            if(response?.data != null)
+            if (response?.data != null)
             {
                 players.AddRange(response.data);
-
             }
-
         }
         catch (Exception e)
         {
